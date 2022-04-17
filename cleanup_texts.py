@@ -15,13 +15,15 @@ def main(args):
     output_dir.mkdir(parents=True,exist_ok=True)
 
     r1=re.compile(r"\d+")
+    r2=re.compile('[!"#$%&\'\\\\()*+,-./:;<=>?@[\\]^_`{|}~「」〔〕“”〈〉『』【】＆＊・（）＄＃＠。、？！｀＋￥％※]')
 
     for text_file in tqdm(text_files):
         with text_file.open("r") as r:
             text=r.read()
 
         normalized_text=unicodedata.normalize("NFKC",text)
-        replaced_text=r1.sub(normalized_text,"0")
+        replaced_text=r1.sub("",normalized_text)
+        replaced_text=r2.sub("",replaced_text)
 
         output_file=output_dir.joinpath(text_file.name)
         with output_file.open("w") as w:
